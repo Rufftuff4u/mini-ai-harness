@@ -30,7 +30,10 @@ def main():
     if subprocess.run(['git', 'status', '--porcelain'], cwd=ROOT, capture_output=True, text=True, check=True).stdout.strip():
         sys.exit('Working tree must be clean before running harness')
     branch = 'feature/' + args.ticket.lower()
-    run(['git', 'switch', '-c', branch])
+    if subprocess.run(['git', 'show-ref', '--verify', '--quiet', f'refs/heads/{branch}'], cwd=ROOT).returncode == 0:
+        run(['git', 'switch', branch])
+    else:
+        run(['git', 'switch', '-c', branch])
     prompt = f'''Implement ticket {args.ticket} from tickets/{args.ticket}.md.
 First inspect AGENTS.md, app/, and tests/. Understand existing behavior.
 Write a short plan to PLAN.md, then implement the smallest change and add tests.
