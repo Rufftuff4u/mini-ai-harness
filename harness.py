@@ -37,7 +37,7 @@ Write a short plan to PLAN.md, then implement the smallest change and add tests.
 Do not commit, push, open a PR, or merge. Do not modify the ticket.
 Run python -m unittest discover -s tests -v and report results.
 '''
-    run(['codex', 'exec', '--full-auto', prompt])
+    run(['codex', 'exec', '--sandbox', 'workspace-write', prompt])
     result = subprocess.run([sys.executable, '-m', 'unittest', 'discover', '-s', 'tests', '-v'], cwd=ROOT)
     if result.returncode:
         sys.exit('Tests failed. Review changes; no PR created.')
